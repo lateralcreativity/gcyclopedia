@@ -7,7 +7,10 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
-import { axiosWithAuth } from '../utils/axiosWithAuth';
+import { connect } from 'react-redux';
+import { getGame } from '../store/actions';
+import { useHistory } from 'react-router-dom';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(7),
   },
   search: {
     position: 'relative',
@@ -31,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
     marginLeft: 0,
-    width: '60%',
+    width: 'auto',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(1),
       width: 'auto',
@@ -58,23 +61,22 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       width: '12ch',
       '&:focus': {
-        width: '50ch',
+        width: '30ch',
       },
     },
   },
 }));
 
-export default function SearchAppBar() {
+function Navbar({ getGame }) {
   const classes = useStyles();
-  const [searchValues, setSearchValues] = useState('');
+  const [gameName, setGameName] = useState('');
+  let history = useHistory()
 
-  const inputHandler = event => setSearchValues(event.target.value);
+  const inputHandler = event => setGameName(event.target.value);
   const submitHandler = event => {
     event.preventDefault();
-    axiosWithAuth()
-    .post(`/games/?search=${searchValues}&fields=name`)
-    .then(response => console.log(response))
-    .catch(error => console.log('Error ->', error))
+    getGame(gameName);
+    history.push('/');
   }
 
   return (
@@ -111,3 +113,8 @@ export default function SearchAppBar() {
     </div>
   );
 }
+
+export default connect(
+  null,
+  { getGame }
+)(Navbar);

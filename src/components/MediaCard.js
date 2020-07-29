@@ -7,9 +7,6 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-
-
-
 const useStyles = makeStyles({
   card: {
     height: '100%',
@@ -28,7 +25,7 @@ export default function MediaCard(props) {
   const {
     image,
     title,
-    genres
+    summary
   } = props;
   const classes = useStyles();
 
@@ -43,17 +40,14 @@ export default function MediaCard(props) {
         <Typography gutterBottom variant="h5" component="h2">
           {title}
         </Typography>
-        <Typography>
-          {genres}
+        <Typography style={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>
+          {summary}
         </Typography>
       </CardContent>
-      <CardActions>
+      <CardActions style={{alignSelf: 'center'}}>
         <Button size="small" color="primary">
           View
-                        </Button>
-        <Button size="small" color="primary">
-          Edit
-                        </Button>
+        </Button>
       </CardActions>
     </Card>
   );

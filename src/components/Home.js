@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { fade, makeStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
-import { axiosWithAuth } from '../utils/axiosWithAuth';
 import MediaCard from './MediaCard';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
@@ -9,6 +8,8 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import SearchIcon from '@material-ui/icons/Search';
 import imageMissing from '../assets/image-missing.svg';
+import { connect } from 'react-redux';
+import { getGame } from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -26,31 +27,37 @@ const useStyles = makeStyles((theme) => ({
       paddingTop: theme.spacing(8),
       paddingBottom: theme.spacing(8),
     },
-  }));
+    search: {
+      position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.black, 0.15),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.black, 0.25),
+    },
+    marginLeft: 0,
+    width: 'auto',
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft: theme.spacing(1),
+      width: 'auto',
+      },
+    },
+    inputInput: {
+      padding: theme.spacing(1, 1, 1, 1),
+      transition: theme.transitions.create('width'),
+      width: '100%',
+      [theme.breakpoints.up('sm')]: {
+        width: '50ch'
+      },
+  }}));
 
-function Home() {
+function Home({ gameData, errorMessage, getGame }) {
     const classes = useStyles();
-    const [searchValues, setSearchValues] = useState('');
-    const [data, setData] = useState([]);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [gameName, setGameName] = useState('');
 
-    const inputHandler = event => setSearchValues(event.target.value);
+    const inputHandler = event => setGameName(event.target.value);
     const submitHandler = event => {
         event.preventDefault();
-        axiosWithAuth()
-            .post(`/games/?search=${searchValues}&fields=name,cover.image_id,genres.name`)
-            .then(response => {
-                console.log(response)
-                if(!response.data[0]) {
-                    setData([])
-                    setErrorMessage('Game with that name was not found.')
-                } else {
-                    console.log(response.data)
-                    setErrorMessage('');
-                    setData([...response.data])
-                }
-            })
-            .catch(error => console.log('Error ->', error))
+        getGame(gameName);
     }
 
     return (
@@ -67,7 +74,7 @@ function Home() {
                   To get started simply search for a game.
                 </Typography>
                 <div className={classes.heroButtons}>
-                  <Grid container spacing={2} justify="center">
+                  <Grid container spacing={1} justify="center" alignItems="flex-end">
                       <Grid item>
                       <div className={classes.searchIcon}>
               <SearchIcon />
@@ -86,23 +93,23 @@ function Home() {
               onChange={inputHandler}
             />
             </form>
-            {errorMessage ? <p>{errorMessage}</p> : <></>}
+            {errorMessage ? <p style={{color: 'red'}}>{errorMessage}</p> : <></>}
           </div>
                     </Grid>
                   </Grid>
                 </div>
               </Container>
             </div>
-            {!data[0] ? <></> :
+            {!gameData[0] ? <></> :
             <Container className={classes.cardGrid} maxWidth="md">
               <Grid container spacing={4}>
-                {data.map(game => (
+                {gameData.map(game => (
                     game.cover ? 
                 <Grid item key={game.id} xs={12} sm={6} md={4}>
-                    <MediaCard title={game.name} image={`https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.jpg`} />
+                    <MediaCard title={game.name} image={`https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.jpg`} summary={game.summary} />
                 </Grid> :
                 <Grid item key={game.id} xs={12} sm={6} md={4}>
-                <MediaCard title={game.name} image={imageMissing} />
+                <MediaCard title={game.name} image={imageMissing} summary={game.summary} />
             </Grid>
                 ))}
               </Grid>
@@ -112,4 +119,14 @@ function Home() {
       );
 }
 
-export default Home;
+const mapStateToProps = state => {
+  return {
+    gameData: state.gameData,
+    errorMessage: state.errorMessage
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  { getGame }
+)(Home);
