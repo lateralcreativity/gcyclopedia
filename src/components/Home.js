@@ -106,7 +106,7 @@ function Home({ gameData, errorMessage, getGame }) {
                 {gameData.map(game => (
                     game.cover ? 
                 <Grid item key={game.id} xs={12} sm={6} md={4}>
-                    <MediaCard title={game.name} image={`https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.jpg`} summary={game.summary} />
+                    <MediaCard title={game.name} image={`https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.jpg`} summary={game.summary} id={game.id} />
                 </Grid> :
                 <Grid item key={game.id} xs={12} sm={6} md={4}>
                 <MediaCard title={game.name} image={imageMissing} summary={game.summary} />

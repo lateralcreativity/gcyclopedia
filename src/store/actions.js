@@ -2,11 +2,12 @@ import {axiosWithAuth} from '../utils/axiosWithAuth';
 
 export const GET_GAME_SUCCESS = 'GET_GAME_SUCCESS';
 export const GET_GAME_FAILURE = 'GET_GAME_FAILURE';
+export const GET_GAME_DETAILS = 'GET_GAME_DETAILS';
 
 export const getGame = title => {
     return dispatch => {
         axiosWithAuth()
-            .post(`/games/?search=${title}&fields=name,cover.image_id,summary`)
+            .post(`/games/?search=${title}&fields=name,cover.image_id,summary,genres.name,release_dates.human,videos.video_id`)
             .then(response => {
                 console.log(response)
                 if(!response.data[0]) {
@@ -20,5 +21,19 @@ export const getGame = title => {
                 console.log('Error ->', error)
                 dispatch({ type: GET_GAME_FAILURE, payload: error})
             })
+    }
+}
+
+export const getGameDetails = id => {
+    return dispatch => {
+        axiosWithAuth()
+        .get(`/games/${id}?&fields=name,cover.image_id,summary,genres.name,release_dates.human,videos.video_id`)
+        .then(response => {
+            console.log(response)
+            dispatch({ type: GET_GAME_DETAILS, payload: response.data[0] })
+        })
+        .catch(error => {
+            console.log('Error ->', error)
+        })
     }
 }

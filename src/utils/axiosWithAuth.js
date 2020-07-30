@@ -11,7 +11,7 @@ export const axiosWithAuth = () => {
     return axios.create({
         headers: {
             'Accept': 'application/json',
-            'user-key': 'd62a1813a58d9c855b6a319db2ed0703'
+            'user-key': process.env.REACT_APP_USER_KEY
         }
     });
 }

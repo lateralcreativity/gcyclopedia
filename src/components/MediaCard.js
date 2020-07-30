@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import {useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles({
   card: {
@@ -25,9 +26,15 @@ export default function MediaCard(props) {
   const {
     image,
     title,
-    summary
+    summary,
+    id
   } = props;
   const classes = useStyles();
+  const history = useHistory();
+
+  const viewDetails = () => {
+    history.push(`/games/${id}`)
+  }
 
   return (
     <Card className={classes.card}>
@@ -45,9 +52,9 @@ export default function MediaCard(props) {
         </Typography>
       </CardContent>
       <CardActions style={{alignSelf: 'center'}}>
-        <Button size="small" color="primary">
-          View
-        </Button>
+          <Button size="small" color="primary" onClick={viewDetails}>
+            View
+          </Button>
       </CardActions>
     </Card>
   );
