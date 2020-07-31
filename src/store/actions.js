@@ -17,7 +17,7 @@ export const getGame = title => {
             })
             .catch(error => {
                 console.log('Error ->', error)
-                dispatch({ type: GET_GAME_FAILURE, payload: error})
+                dispatch({ type: GET_GAME_FAILURE, payload: 'error'})
             })
     }
 }
@@ -30,7 +30,7 @@ export const getGameDetails = id => {
             dispatch({ type: GET_GAME_DETAILS, payload: response.data[0] })
         })
         .catch(error => {
-            console.log('Error ->', error)
+            console.log('Error ->', 'error')
         })
     }
 }
