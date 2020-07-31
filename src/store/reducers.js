@@ -1,7 +1,7 @@
 import {
     GET_GAME_SUCCESS,
     GET_GAME_FAILURE,
-    GET_GAME_DETAILS
+    GET_GAME_DETAILS,
 } from '../store/actions';
 
 const initialState = {

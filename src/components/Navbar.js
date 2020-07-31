@@ -10,6 +10,7 @@ import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
 import { connect } from 'react-redux';
 import { getGame } from '../store/actions';
 import { useHistory } from 'react-router-dom';
+import background from '../assets/gaming-pattern.png';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -75,8 +76,16 @@ function Navbar({ getGame }) {
   const inputHandler = event => setGameName(event.target.value);
   const submitHandler = event => {
     event.preventDefault();
+    document.body.style.backgroundImage = `url("${background}")`
     getGame(gameName);
     history.push('/');
+    setGameName('');
+  }
+  const redirectHandler = event => {
+    event.preventDefault();
+    document.body.style.backgroundImage = `url("${background}")`;
+    history.push('/');
+    setGameName('');
   }
 
   return (
@@ -88,8 +97,10 @@ function Navbar({ getGame }) {
             <IconButton 
             className={classes.menuButton}
             color="inherit"
-            aria-label="open drawer">
-              <SportsEsportsIcon/>
+            aria-label="open drawer"
+            onClick={redirectHandler}
+            >
+              <SportsEsportsIcon htmlColor={'#3cf73c'}/>
           </IconButton>
           </Typography>
           <div className={classes.search}>
@@ -104,6 +115,7 @@ function Navbar({ getGame }) {
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
+              value = {gameName}
               onChange={inputHandler}
             />
             </form>

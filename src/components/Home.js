@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
     cardGrid: {
       paddingTop: theme.spacing(8),
       paddingBottom: theme.spacing(8),
+      backgroundColor: '#fff',
+      borderRight: '2px solid black',
+      borderLeft: '2px solid black'
     },
     search: {
       position: 'relative',
@@ -58,6 +61,7 @@ function Home({ gameData, errorMessage, getGame }) {
     const submitHandler = event => {
         event.preventDefault();
         getGame(gameName);
+        setGameName('');
     }
 
     return (
@@ -74,7 +78,7 @@ function Home({ gameData, errorMessage, getGame }) {
                   To get started simply search for a game.
                 </Typography>
                 <div className={classes.heroButtons}>
-                  <Grid container spacing={1} justify="center" alignItems="flex-end">
+                  <Grid container justify="center" alignItems="flex-end">
                       <Grid item>
                       <div className={classes.searchIcon}>
               <SearchIcon />
@@ -90,6 +94,7 @@ function Home({ gameData, errorMessage, getGame }) {
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
+              input = {gameName}
               onChange={inputHandler}
             />
             </form>
@@ -109,7 +114,7 @@ function Home({ gameData, errorMessage, getGame }) {
                     <MediaCard title={game.name} image={`https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.jpg`} summary={game.summary} id={game.id} />
                 </Grid> :
                 <Grid item key={game.id} xs={12} sm={6} md={4}>
-                <MediaCard title={game.name} image={imageMissing} summary={game.summary} />
+                <MediaCard title={game.name} image={imageMissing} summary={game.summary} id={game.id}/>
             </Grid>
                 ))}
               </Grid>

@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Footer from './components/Footer';
 import GameDetails from './components/GameDetails';
+import ScrollToTop from './components/ScrollToTop';
 
 const container = {
   height: '100%',
@@ -15,13 +16,15 @@ const container = {
 function App() {
   return (
     <div style={container}>
-      <div>
+      <div className="hereForFlex">
       <Router>
         <Navbar />
-        <Switch>
-          <Route exact path='/' component={Home} />
-          <Route exact path='/games/:id' component={GameDetails} />
-        </Switch>
+        <ScrollToTop>
+          <Switch>
+            <Route exact path='/' component={Home} />
+            <Route exact path='/games/:id' component={GameDetails} />
+          </Switch>
+        </ScrollToTop>
       </Router>
       </div>
       <Footer />

@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     return (
       <Typography variant="body2" color="textSecondary" align="center">
         {'© '}
-        <Link color="inherit" href="https://www.gabrieldelgado.tech">
+        <Link color="inherit" href="https://www.gabrieldelgado.tech" target="_blank">
           Gabriel Delgado
         </Link>{' '}
         {new Date().getFullYear()}
