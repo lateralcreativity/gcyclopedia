@@ -9,11 +9,9 @@ export const getGame = title => {
         axiosWithAuth()
             .post(`/games/?search=${title}&fields=name,cover.image_id,summary,genres.name,release_dates.human,videos.video_id`)
             .then(response => {
-                console.log(response)
                 if(!response.data[0]) {
                     dispatch({ type: GET_GAME_FAILURE, payload: 'No game with that name was found!'})
                 } else {
-                    console.log(response.data)
                     dispatch({ type: GET_GAME_SUCCESS, payload: response.data })
                 }
             })
@@ -29,7 +27,6 @@ export const getGameDetails = id => {
         axiosWithAuth()
         .get(`/games/${id}?&fields=name,cover.image_id,summary,genres.name,release_dates.human,videos.video_id`)
         .then(response => {
-            console.log(response)
             dispatch({ type: GET_GAME_DETAILS, payload: response.data[0] })
         })
         .catch(error => {
