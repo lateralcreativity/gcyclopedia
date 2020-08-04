@@ -7,6 +7,7 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { connect } from 'react-redux';
 import { getGame } from '../store/actions';
 import { useHistory } from 'react-router-dom';
@@ -71,7 +72,8 @@ const useStyles = makeStyles((theme) => ({
 function Navbar({ getGame }) {
   const classes = useStyles();
   const [gameName, setGameName] = useState('');
-  let history = useHistory()
+  const matches = useMediaQuery('(min-width:667px)');
+  let history = useHistory();
 
   const inputHandler = event => setGameName(event.target.value);
   const submitHandler = event => {
@@ -81,6 +83,7 @@ function Navbar({ getGame }) {
     history.push('/');
     setGameName('');
   }
+
   const redirectHandler = event => {
     event.preventDefault();
     document.body.style.backgroundImage = `url("${background}")`;
@@ -103,6 +106,9 @@ function Navbar({ getGame }) {
               <SportsEsportsIcon htmlColor={'#3cf73c'}/>
           </IconButton>
           </Typography>
+          {matches ? <Typography variant="h6" noWrap onClick={redirectHandler} style={{cursor: 'pointer', alignSelf: 'center'}}>
+            Home
+          </Typography> : <></>}
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />

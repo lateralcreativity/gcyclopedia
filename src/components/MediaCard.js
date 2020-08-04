@@ -20,6 +20,7 @@ const useStyles = makeStyles({
   },
   cardContent: {
     flexGrow: 1,
+    padding: '1%'
   },
 });
 
@@ -45,7 +46,7 @@ export default function MediaCard(props) {
         title={title}
       />
       <CardContent className={classes.cardContent}>
-        <Typography gutterBottom variant="h5" component="h2">
+        <Typography gutterBottom variant="h5" component="h2" align="center">
           {title}
         </Typography>
         <Typography style={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>

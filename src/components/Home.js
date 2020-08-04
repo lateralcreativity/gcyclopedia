@@ -98,11 +98,11 @@ function Home({ gameData, errorMessage, getGame }) {
               onChange={inputHandler}
             />
             </form>
-            {errorMessage ? <p style={{color: 'red'}}>{errorMessage}</p> : <></>}
           </div>
                     </Grid>
                   </Grid>
                 </div>
+                {errorMessage ? <p style={{color: 'red', textAlign: 'center'}}>{errorMessage}</p> : <></>}
               </Container>
             </div>
             {!gameData[0] ? <></> :
